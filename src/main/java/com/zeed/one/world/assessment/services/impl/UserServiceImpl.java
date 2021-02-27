@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -35,6 +36,10 @@ public class UserServiceImpl implements UserService {
         if (!optionalUser.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User with ID %s not found", id));
         User user = optionalUser.get();
+
+        if (user.isDeleted())
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, String.format("User with ID %s already deactivated", id));
+
         user.setTitle(StringUtils.isEmpty(userUpdateApiModel.getTitle()) ? user.getTitle() : userUpdateApiModel.getTitle());
         user.setFirstName(StringUtils.isEmpty(userUpdateApiModel.getFirstName()) ? user.getFirstName() : userUpdateApiModel.getFirstName());
         user.setLastName(StringUtils.isEmpty(userUpdateApiModel.getLastName()) ? user.getLastName() : userUpdateApiModel.getLastName());
@@ -51,6 +56,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String id) {
+        if (userRepository.updateDeleteStatus(new Date(), id) == 0)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to locate record or User already deactivated");
 
     }
 }
