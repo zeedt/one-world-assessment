@@ -1,5 +1,6 @@
 package com.zeed.one.world.assessment.services.impl;
 
+import com.zeed.one.world.assessment.enums.Status;
 import com.zeed.one.world.assessment.model.*;
 import com.zeed.one.world.assessment.entities.User;
 import com.zeed.one.world.assessment.repository.UserRepository;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private EmailService emailService;
 
-    @Value("${service.base.url:http://localhost:8080/user/}")
+    @Value("${service.base.url:http://localhost:8080/api/user/verify/}")
     private String serviceBaseUrl;
 
     @Override
@@ -80,6 +81,21 @@ public class UserServiceImpl implements UserService {
         if (userRepository.updateDeleteStatus(LocalDateTime.now(), id) == 0)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to locate record or User already deactivated");
 
+    }
+
+    @Override
+    public String verifyUser(String id, String approvalCode) {
+        Optional<User> optionalUser = userRepository.findByIdAndApprovalCode(id, approvalCode);
+        if (!optionalUser.isPresent())
+            return "Invalid verification link";
+        User user = optionalUser.get();
+        if (user.isVerified())
+            return "User already verified";
+        user.setVerified(true);
+        user.setDateVerified(LocalDateTime.now());
+        user.setStatus(Status.VERIFIED);
+        userRepository.save(user);
+        return "Congratulations, Your account has been verified";
     }
 
     private UserSearchResponseModel getPagedRequestByAndParameters(UserSearchApiModel searchModel) {

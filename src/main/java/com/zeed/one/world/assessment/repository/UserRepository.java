@@ -21,6 +21,9 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @Transactional
     @Modifying
-    @Query("update User c set c.deleted = true , c.dateDeactivated = :date where c.id = :id and c.deleted = false")
+    @Query("update User c set c.deleted = true , c.dateDeactivated = :date, c.status = 'DEACTIVATED' where c.id = :id and c.deleted = false")
     int updateDeleteStatus(LocalDateTime date, String id);
+
+    Optional<User> findByIdAndApprovalCode(String email, String approvalCode);
+
 }

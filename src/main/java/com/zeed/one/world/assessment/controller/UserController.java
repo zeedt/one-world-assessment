@@ -6,14 +6,13 @@ import com.zeed.one.world.assessment.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -21,7 +20,7 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class.getName());
 
-    @PostMapping
+    @PostMapping("/user")
     public UserApiModel createUser(@RequestBody @Validated UserCreationApiModel userCreationApiModel) {
         try {
             return userService.createUser(userCreationApiModel);
@@ -33,18 +32,23 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/user/{id}")
     public UserApiModel updateUser(@RequestBody @Validated UserUpdateApiModel userUpdateApiModel, @PathVariable String id) {
         return userService.updateUser(userUpdateApiModel, id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/user/{id}")
     public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
     }
 
-    @GetMapping
+    @GetMapping("/users")
     public UserSearchResponseModel getUsers(UserSearchApiModel userSearchApiModel) {
         return userService.getUser(userSearchApiModel);
+    }
+
+    @GetMapping("/user/verify/{id}/{approvalCode}")
+    public String verifyUser(@PathVariable String id, @PathVariable String approvalCode) {
+        return userService.verifyUser(id, approvalCode);
     }
 }

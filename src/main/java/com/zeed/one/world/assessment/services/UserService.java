@@ -12,4 +12,6 @@ public interface UserService {
 
     void deleteUser(String id);
 
+    String verifyUser(String id, String approvalCode);
+
 }
