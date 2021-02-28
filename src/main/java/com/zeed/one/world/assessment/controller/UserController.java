@@ -25,6 +25,8 @@ public class UserController {
     public UserApiModel createUser(@RequestBody @Validated UserCreationApiModel userCreationApiModel) {
         try {
             return userService.createUser(userCreationApiModel);
+        } catch (ResponseStatusException e) {
+            throw e;
         } catch (Exception e) {
             LOGGER.error("Error occurred while creating user due to ", e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unable to create user at this time. Please try again");

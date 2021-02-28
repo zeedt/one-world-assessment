@@ -12,6 +12,7 @@ create table "user" (
     date_verified timestamp,
     date_deactivated timestamp,
     status varchar(20) not null,
+    approval_code varchar(6) not null,
     deleted boolean not null ,
 
     constraint Uq__user__email unique (email)

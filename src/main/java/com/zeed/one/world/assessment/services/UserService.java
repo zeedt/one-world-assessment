@@ -1,7 +1,6 @@
 package com.zeed.one.world.assessment.services;
 
 import com.zeed.one.world.assessment.model.*;
-import org.springframework.data.domain.Page;
 
 public interface UserService {
 

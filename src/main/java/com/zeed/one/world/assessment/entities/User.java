@@ -1,5 +1,6 @@
 package com.zeed.one.world.assessment.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zeed.one.world.assessment.enums.Role;
 import com.zeed.one.world.assessment.enums.Status;
 import com.zeed.one.world.assessment.util.LocalDateTimeAttributeConverter;
@@ -46,6 +47,9 @@ public class User {
     private boolean deleted;
 
     private String title;
+
+    @JsonIgnore
+    private String approvalCode;
 
     public String getId() {
         return id;
@@ -157,5 +161,13 @@ public class User {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getApprovalCode() {
+        return approvalCode;
+    }
+
+    public void setApprovalCode(String approvalCode) {
+        this.approvalCode = approvalCode;
     }
 }

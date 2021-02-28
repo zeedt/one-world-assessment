@@ -3,9 +3,11 @@ package com.zeed.one.world.assessment.services.impl;
 import com.zeed.one.world.assessment.model.*;
 import com.zeed.one.world.assessment.entities.User;
 import com.zeed.one.world.assessment.repository.UserRepository;
+import com.zeed.one.world.assessment.services.EmailService;
 import com.zeed.one.world.assessment.services.UserService;
 import com.zeed.one.world.assessment.util.GeneralUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -31,10 +33,21 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Value("${service.base.url:http://localhost:8080/user/}")
+    private String serviceBaseUrl;
+
     @Override
     public UserApiModel createUser(UserCreationApiModel userCreationApiModel) {
+        Optional<User> optionalUser = userRepository.findByEmail(userCreationApiModel.getEmail());
+        if (optionalUser.isPresent())
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email already exists");
+
         User user = GeneralUtil.convertCreateUserApiModelToEntity(userCreationApiModel);
         userRepository.save(user);
+        emailService.sendNotification(user.getEmail(), "Welcome to One World Accuracy", composeEmailContent(user.getApprovalCode(), user.getId(), user.getFirstName()));
         return GeneralUtil.convertUserEntityToApiModel(user);
     }
 
@@ -55,6 +68,18 @@ public class UserServiceImpl implements UserService {
         user.setEmail(StringUtils.isEmpty(userUpdateApiModel.getEmail()) ? user.getEmail() : userUpdateApiModel.getEmail());
         userRepository.save(user);
         return GeneralUtil.convertUserEntityToApiModel(user);
+    }
+
+    @Override
+    public UserSearchResponseModel getUser(UserSearchApiModel searchApiModel) {
+        return getPagedRequestByAndParameters(searchApiModel);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        if (userRepository.updateDeleteStatus(LocalDateTime.now(), id) == 0)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to locate record or User already deactivated");
+
     }
 
     private UserSearchResponseModel getPagedRequestByAndParameters(UserSearchApiModel searchModel) {
@@ -101,16 +126,13 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    private String composeEmailContent(String approvalCode, String id, String firstName) {
+        StringBuilder stringBuilder = new StringBuilder("<html>")
+                .append("<p>Hi " + firstName + ",</p>")
+                .append(String.format("Welcome to One World Accuracy. Kindly click <a href='%s%s/%s'>here</a> to activate your account.", serviceBaseUrl, id, approvalCode))
+                .append("</html>");
 
-    @Override
-    public UserSearchResponseModel getUser(UserSearchApiModel searchApiModel) {
-        return getPagedRequestByAndParameters(searchApiModel);
+        return stringBuilder.toString();
     }
 
-    @Override
-    public void deleteUser(String id) {
-        if (userRepository.updateDeleteStatus(LocalDateTime.now(), id) == 0)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to locate record or User already deactivated");
-
-    }
 }
