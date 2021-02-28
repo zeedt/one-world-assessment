@@ -8,6 +8,7 @@ import com.zeed.one.world.assessment.enums.Status;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class GeneralUtil {
@@ -23,7 +24,7 @@ public class GeneralUtil {
         user.setTitle(userCreationApiModel.getTitle());
         user.setRole(userCreationApiModel.getRole());
         user.setPassword(PASSWORD_ENCODER.encode(userCreationApiModel.getPassword()));
-        user.setDateRegistered(new Date());
+        user.setDateRegistered(LocalDateTime.now());
         user.setStatus(Status.REGISTERED);
         user.setVerified(false);
         user.setDeleted(false);

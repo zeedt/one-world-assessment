@@ -2,10 +2,10 @@ package com.zeed.one.world.assessment.entities;
 
 import com.zeed.one.world.assessment.enums.Role;
 import com.zeed.one.world.assessment.enums.Status;
+import com.zeed.one.world.assessment.util.LocalDateTimeAttributeConverter;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "\"user\"")
@@ -29,13 +29,16 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private Date dateRegistered;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime dateRegistered;
 
     private boolean verified = false;
 
-    private Date dateVerified;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime dateVerified;
 
-    private Date dateDeactivated;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime dateDeactivated;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -100,11 +103,11 @@ public class User {
         this.role = role;
     }
 
-    public Date getDateRegistered() {
+    public LocalDateTime getDateRegistered() {
         return dateRegistered;
     }
 
-    public void setDateRegistered(Date dateRegistered) {
+    public void setDateRegistered(LocalDateTime dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
 
@@ -116,19 +119,19 @@ public class User {
         this.verified = verified;
     }
 
-    public Date getDateVerified() {
+    public LocalDateTime getDateVerified() {
         return dateVerified;
     }
 
-    public void setDateVerified(Date dateVerified) {
+    public void setDateVerified(LocalDateTime dateVerified) {
         this.dateVerified = dateVerified;
     }
 
-    public Date getDateDeactivated() {
+    public LocalDateTime getDateDeactivated() {
         return dateDeactivated;
     }
 
-    public void setDateDeactivated(Date dateActivated) {
+    public void setDateDeactivated(LocalDateTime dateActivated) {
         this.dateDeactivated = dateActivated;
     }
 

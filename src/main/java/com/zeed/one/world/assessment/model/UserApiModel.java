@@ -2,17 +2,18 @@ package com.zeed.one.world.assessment.model;
 
 import com.zeed.one.world.assessment.enums.Role;
 import com.zeed.one.world.assessment.enums.Status;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 public class UserApiModel extends AbstractUserApiModel {
 
     private boolean verified;
 
-    private Date dateRegistered;
+    private LocalDateTime dateRegistered;
 
-    private Date dateVerified;
+    private LocalDateTime dateVerified;
 
-    private Date dateActivated;
+    private LocalDateTime dateActivated;
 
     private Status status;
 
@@ -28,27 +29,27 @@ public class UserApiModel extends AbstractUserApiModel {
         this.verified = verified;
     }
 
-    public Date getDateRegistered() {
+    public LocalDateTime getDateRegistered() {
         return dateRegistered;
     }
 
-    public void setDateRegistered(Date dateRegistered) {
+    public void setDateRegistered(LocalDateTime dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
 
-    public Date getDateVerified() {
+    public LocalDateTime getDateVerified() {
         return dateVerified;
     }
 
-    public void setDateVerified(Date dateVerified) {
+    public void setDateVerified(LocalDateTime dateVerified) {
         this.dateVerified = dateVerified;
     }
 
-    public Date getDateActivated() {
+    public LocalDateTime getDateActivated() {
         return dateActivated;
     }
 
-    public void setDateActivated(Date dateActivated) {
+    public void setDateActivated(LocalDateTime dateActivated) {
         this.dateActivated = dateActivated;
     }
 

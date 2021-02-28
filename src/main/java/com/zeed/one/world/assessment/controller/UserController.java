@@ -1,13 +1,12 @@
 package com.zeed.one.world.assessment.controller;
 
 
-import com.zeed.one.world.assessment.model.UserApiModel;
-import com.zeed.one.world.assessment.model.UserCreationApiModel;
-import com.zeed.one.world.assessment.model.UserUpdateApiModel;
+import com.zeed.one.world.assessment.model.*;
 import com.zeed.one.world.assessment.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +39,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping
+    public UserSearchResponseModel getUsers(UserSearchApiModel userSearchApiModel) {
+        return userService.getUser(userSearchApiModel);
     }
 }

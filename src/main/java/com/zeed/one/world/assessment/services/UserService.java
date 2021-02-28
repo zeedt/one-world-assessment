@@ -1,8 +1,6 @@
 package com.zeed.one.world.assessment.services;
 
-import com.zeed.one.world.assessment.model.UserApiModel;
-import com.zeed.one.world.assessment.model.UserCreationApiModel;
-import com.zeed.one.world.assessment.model.UserUpdateApiModel;
+import com.zeed.one.world.assessment.model.*;
 import org.springframework.data.domain.Page;
 
 public interface UserService {
@@ -11,7 +9,7 @@ public interface UserService {
 
     UserApiModel updateUser(UserUpdateApiModel userUpdateApiModel, String id);
 
-    Page<UserApiModel> getUser(int pageNo, int pageSize);
+    UserSearchResponseModel getUser(UserSearchApiModel searchApiModel);
 
     void deleteUser(String id);
 
