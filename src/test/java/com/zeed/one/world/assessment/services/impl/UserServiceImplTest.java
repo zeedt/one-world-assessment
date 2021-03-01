@@ -1,10 +1,12 @@
 package com.zeed.one.world.assessment.services.impl;
 
 import com.zeed.one.world.assessment.enums.Status;
-import com.zeed.one.world.assessment.model.*;
+import com.zeed.one.world.assessment.model.UserApiModel;
+import com.zeed.one.world.assessment.model.UserCreationApiModel;
+import com.zeed.one.world.assessment.model.UserUpdateApiModel;
+import com.zeed.one.world.assessment.model.UserSearchResponseModel;
 import com.zeed.one.world.assessment.repository.UserRepository;
 import com.zeed.one.world.assessment.services.EmailService;
-import com.zeed.one.world.assessment.services.UserService;
 import com.zeed.one.world.assessment.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,14 +16,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.util.CollectionUtils;
-
-import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 
@@ -72,7 +69,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getUser() throws ClassNotFoundException {
+    public void getUser() {
         Mockito.when(userRepository.findAll(Mockito.any(Specification.class), Mockito.any(Pageable.class))).thenReturn(TestUtil.getMockedPagedUser());
         UserSearchResponseModel userSearchApiModel = userServiceImpl.getUser(TestUtil.getMockedUserSearchApiRequest());
         assertNotNull("Returned user search response model cannot be null", userSearchApiModel);
