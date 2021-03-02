@@ -4,7 +4,6 @@ import com.zeed.one.world.assessment.enums.Role;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class UserCreationApiModel extends AbstractUserApiModel {
 

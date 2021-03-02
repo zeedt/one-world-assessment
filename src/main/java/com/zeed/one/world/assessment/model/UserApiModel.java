@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 public class UserApiModel extends AbstractUserApiModel {
 
+    private String id;
+
     private boolean verified;
 
     private LocalDateTime dateRegistered;
@@ -75,5 +77,17 @@ public class UserApiModel extends AbstractUserApiModel {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public boolean isVerified() {
+        return verified;
     }
 }

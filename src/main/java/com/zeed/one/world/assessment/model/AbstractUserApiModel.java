@@ -4,8 +4,6 @@ import javax.validation.constraints.NotBlank;
 
 public abstract class AbstractUserApiModel {
 
-    private String id;
-
     @NotBlank
     private String firstName;
 
@@ -20,14 +18,6 @@ public abstract class AbstractUserApiModel {
 
     @NotBlank
     private String title;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
