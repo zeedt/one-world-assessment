@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
@@ -78,7 +79,7 @@ public class UserServiceImplTest {
         Mockito.when(userRepository.findAll(Mockito.any(Specification.class), Mockito.any(Pageable.class))).thenReturn(TestUtil.getMockedPagedUser());
         UserSearchResponseModel userSearchApiModel = userServiceImpl.getUser(TestUtil.getMockedUserSearchApiRequest());
         assertNotNull("Returned user search response model cannot be null", userSearchApiModel);
-        assertTrue("User records present", !CollectionUtils.isEmpty(userSearchApiModel.getUserApiModels()));
+        assertFalse("User records present", CollectionUtils.isEmpty(userSearchApiModel.getUserApiModels()));
         assertTrue("2 User records present", userSearchApiModel.getUserApiModels().size() == 2);
 
     }
