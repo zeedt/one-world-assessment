@@ -5,6 +5,7 @@ This application is implemented using the following technologies:
 3.  Flyway
 4.  Gmail SMTP
 5.  Swagger/OpenAPI
+6.  Heroku
 
 ### Java (Spring boot)
 The application is built with Java programming language. The application leverages on Spring boot framework.
@@ -19,9 +20,12 @@ Flyway is used for database migration and seeding
 Gmail SMTP is used for email notification.
 
 ### Swagger/OpenAPI
-Swagger/OpenAPI is used for api documentation. This can be accessed using this URL
+Swagger/OpenAPI is used for api documentation. This can be accessed and tested using this URL
 
 https://one-world-assessment.herokuapp.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
+
+### Heroku
+The application is deployed on heroku with base URL https://one-world-assessment.herokuapp.com/
 
 Below is the link to the project on Codacy
 
