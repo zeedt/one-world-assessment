@@ -107,6 +107,20 @@ public class UserServiceImplTest {
         userServiceImpl.updateUser(updateApiModel, "ba2a3c19-2113-4d48-a7e3-27b66b95db5b");
     }
 
+    @Test(expected = ResponseStatusException.class)
+    public void testForUserWithNewEmailExistDuringUpdate() {
+        UserUpdateApiModel updateApiModel = TestUtil.getMockedUserUpdateApiModel();
+        User user = TestUtil.getMockedResponseForUserPresent().get();
+        User existingUser = TestUtil.getMockedResponseForUserPresent().get();
+        existingUser.setEmail("shola@www.com");
+        Mockito.when(userRepository.findById(Mockito.anyString()))
+                .thenReturn(Optional.of(user));
+        Mockito.when(userRepository.findByEmail(Mockito.anyString()))
+                .thenReturn(Optional.of(existingUser));
+
+        userServiceImpl.updateUser(updateApiModel, "ba223c19-2113-4d48-a7e3-27b66b95db5b");
+    }
+
     @Test
     public void getUser() {
         Mockito.when(userRepository.findAll(Mockito.any(Specification.class), Mockito.any(Pageable.class))).thenReturn(TestUtil.getMockedPagedUser());

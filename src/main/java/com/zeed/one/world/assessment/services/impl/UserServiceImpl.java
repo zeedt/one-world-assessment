@@ -66,6 +66,9 @@ public class UserServiceImpl implements UserService {
         if (user.isDeleted())
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, String.format("User with ID %s already deactivated", id));
 
+        if (!user.getEmail().equalsIgnoreCase(userUpdateApiModel.getEmail()) && userRepository.findByEmail(userUpdateApiModel.getEmail()).isPresent())
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, String.format("User with Email %s already deactivated", userUpdateApiModel.getEmail()));
+
         user.setTitle(StringUtils.isEmpty(userUpdateApiModel.getTitle()) ? user.getTitle() : userUpdateApiModel.getTitle());
         user.setFirstName(StringUtils.isEmpty(userUpdateApiModel.getFirstName()) ? user.getFirstName() : userUpdateApiModel.getFirstName());
         user.setLastName(StringUtils.isEmpty(userUpdateApiModel.getLastName()) ? user.getLastName() : userUpdateApiModel.getLastName());
