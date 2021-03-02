@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private EmailService emailService;
 
-    @Value("${service.base.url:http://localhost:8080/api/user/verify/}")
+    @Value("${service.base.url:https://one-world-assessment.herokuapp.com/api/user/verify/}")
     private String serviceBaseUrl;
 
     @Override
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User already deactivated");
 
         userRepository.updateDeleteStatus(LocalDateTime.now(), id);
-        emailService.sendNotification(user.getEmail(), "One World Accuracy Account Deactivation", composeDeactivationEmailContent(user.getFirstName()));
+        emailService.sendNotification(user.getEmail(), "One World Accuracy - Account Deactivation", composeDeactivationEmailContent(user.getFirstName()));
     }
 
     @Override
@@ -105,6 +105,7 @@ public class UserServiceImpl implements UserService {
         user.setDateVerified(LocalDateTime.now());
         user.setStatus(Status.VERIFIED);
         userRepository.save(user);
+        emailService.sendNotification(user.getEmail(), "One World Accuracy - Account Verification", composeVerificationEmailContent(user.getFirstName()));
         return "Congratulations, Your account has been verified";
     }
 
@@ -165,6 +166,15 @@ public class UserServiceImpl implements UserService {
         StringBuilder stringBuilder = new StringBuilder("<html>")
                 .append("<p>Hi " + firstName + ",</p>")
                 .append("Your account has been deactivated.")
+                .append("</html>");
+
+        return stringBuilder.toString();
+    }
+
+    private String composeVerificationEmailContent(String firstName) {
+        StringBuilder stringBuilder = new StringBuilder("<html>")
+                .append("<p>Hi " + firstName + ",</p>")
+                .append("Congratulations, Your account has been verified")
                 .append("</html>");
 
         return stringBuilder.toString();
