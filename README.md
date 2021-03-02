@@ -1,10 +1,10 @@
 ## OneWorld Accuracy Assessment
 This application is implemented using the following technologies:
-1. Java (Spring boot)
-2. Postgres
-3. Flyway
-4. Gmail SMTP
-5. Swagger/OpenAPI
+1.  Java (Spring boot)
+2.  Postgres
+3.  Flyway
+4.  Gmail SMTP
+5.  Swagger/OpenAPI
 
 ### Java (Spring boot)
 The application is built with Java programming language. The application leverages on Spring boot framework.

@@ -6,7 +6,13 @@ import com.zeed.one.world.assessment.enums.Status;
 import com.zeed.one.world.assessment.util.LocalDateTimeAttributeConverter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
