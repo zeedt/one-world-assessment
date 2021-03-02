@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
         User user = GeneralUtil.convertCreateUserApiModelToEntity(userCreationApiModel);
         userRepository.save(user);
-        emailService.sendNotification(user.getEmail(), "Welcome to One World Accuracy", composeEmailContent(user.getApprovalCode(), user.getId(), user.getFirstName()));
+        emailService.sendNotification(user.getEmail(), "Welcome to One World Accuracy", composeSignupEmailContent(user.getApprovalCode(), user.getId(), user.getFirstName()));
         return GeneralUtil.convertUserEntityToApiModel(user);
     }
 
@@ -82,9 +82,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String id) {
-        if (userRepository.updateDeleteStatus(LocalDateTime.now(), id) == 0)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to locate record or User already deactivated");
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (!optionalUser.isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to locate record");
+        User user = optionalUser.get();
+        if (user.isDeleted())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User already deactivated");
 
+        userRepository.updateDeleteStatus(LocalDateTime.now(), id);
+        emailService.sendNotification(user.getEmail(), "One World Accuracy Account Deactivation", composeDeactivationEmailContent(user.getFirstName()));
     }
 
     @Override
@@ -146,10 +152,19 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private String composeEmailContent(String approvalCode, String id, String firstName) {
+    private String composeSignupEmailContent(String approvalCode, String id, String firstName) {
         StringBuilder stringBuilder = new StringBuilder("<html>")
                 .append("<p>Hi " + firstName + ",</p>")
                 .append(String.format("Welcome to One World Accuracy. Kindly click <a href='%s%s/%s'>here</a> to activate your account.", serviceBaseUrl, id, approvalCode))
+                .append("</html>");
+
+        return stringBuilder.toString();
+    }
+
+    private String composeDeactivationEmailContent(String firstName) {
+        StringBuilder stringBuilder = new StringBuilder("<html>")
+                .append("<p>Hi " + firstName + ",</p>")
+                .append("Your account has been deactivated.")
                 .append("</html>");
 
         return stringBuilder.toString();

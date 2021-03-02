@@ -18,8 +18,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.util.CollectionUtils;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -35,6 +35,9 @@ public class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private JavaMailSender javaMailSender;
 
     @Before
     public void init() {
@@ -82,8 +85,8 @@ public class UserServiceImplTest {
 
     @Test
     public void deleteUser() {
-        Mockito.when(userRepository.updateDeleteStatus(Mockito.any(), Mockito.anyString()))
-                .thenReturn(1);
+        Mockito.when(userRepository.findById(Mockito.anyString()))
+                .thenReturn(TestUtil.getMockedResponseForUserPresent());
         userServiceImpl.deleteUser("1ed1a2e9-98fb-4994-a22a-dfb1ee1149d7");
     }
 
