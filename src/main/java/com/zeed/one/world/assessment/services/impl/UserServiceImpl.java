@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to locate record");
         User user = optionalUser.get();
         if (user.isDeleted())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User already deactivated");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User already deactivated");
 
         userRepository.updateDeleteStatus(LocalDateTime.now(), id);
         emailService.sendNotification(user.getEmail(), "One World Accuracy Account Deactivation", composeDeactivationEmailContent(user.getFirstName()));
