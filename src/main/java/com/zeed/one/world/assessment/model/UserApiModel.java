@@ -15,7 +15,7 @@ public class UserApiModel extends AbstractUserApiModel {
 
     private LocalDateTime dateVerified;
 
-    private LocalDateTime dateActivated;
+    private LocalDateTime dateDeActivated;
 
     private Status status;
 
@@ -47,12 +47,12 @@ public class UserApiModel extends AbstractUserApiModel {
         this.dateVerified = dateVerified;
     }
 
-    public LocalDateTime getDateActivated() {
-        return dateActivated;
+    public LocalDateTime getDateDeActivated() {
+        return dateDeActivated;
     }
 
-    public void setDateActivated(LocalDateTime dateActivated) {
-        this.dateActivated = dateActivated;
+    public void setDateDeActivated(LocalDateTime dateDeActivated) {
+        this.dateDeActivated = dateDeActivated;
     }
 
     public Status getStatus() {

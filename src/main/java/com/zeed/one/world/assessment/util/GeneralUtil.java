@@ -37,7 +37,7 @@ public class GeneralUtil {
 
     public static UserApiModel convertUserEntityToApiModel(User user) {
         UserApiModel userApiModel = new UserApiModel();
-        userApiModel.setDateActivated(user.getDateDeactivated());
+        userApiModel.setDateDeActivated(user.getDateDeactivated());
         userApiModel.setDateRegistered(user.getDateRegistered());
         userApiModel.setDeleted(user.isDeleted());
         userApiModel.setEmail(user.getEmail());
